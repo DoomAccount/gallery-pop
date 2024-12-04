@@ -1,0 +1,270 @@
+/*------------------------------------------------------------------------------
+MIT License
+
+https://github.com/DoomAccount/gallery-pop
+
+Copyright (c) 2024 DoomAccount (Mostafa Sabry)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+------------------------------------------------------------------------------*/
+/*-----------------------------------
+all elements
+-----------------------------------*/
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  text-decoration: none;
+  text-rendering: geometricPrecision;
+}
+*:after, *:before {
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-delay: 0s;
+  transition-timing-function: linear;
+  box-sizing: border-box;
+}
+
+/*-----------------------------------
+html & body
+-----------------------------------*/
+html {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  appearance: auto;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  font-kerning: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+html,
+body {
+  font-size: clamp(12px, 1vw, 18px);
+  background-color: #fff;
+  color: #1e2024;
+  height: 100vh;
+  overflow-x: hidden !important;
+}
+
+[data-gallerypop] {
+  cursor: pointer;
+}
+
+.gallerypop-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 999999;
+  overflow: hidden;
+  padding-bottom: 10px;
+  transition: opacity 0.3s ease-in-out;
+}
+.gallerypop-overlay.show {
+  display: flex;
+  opacity: 1;
+}
+.gallerypop-overlay.hide {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+.gallerypop-overlay .gallerypop-content {
+  position: relative;
+  max-width: 80vw;
+  max-height: calc(70vh - 60px);
+  overflow: hidden;
+  z-index: 1;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1);
+}
+.gallerypop-overlay .gallerypop-content .gallerypop-image {
+  transform: scale(0.8);
+  opacity: 0;
+  transition: transform 0.3s linear, opacity 0.5s linear;
+}
+.gallerypop-overlay .gallerypop-content .gallerypop-image.show {
+  transform: scale(1);
+  opacity: 1;
+}
+.gallerypop-overlay .gallerypop-close {
+  background-color: transparent;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 3;
+}
+.gallerypop-overlay .gallerypop-close:hover::before, .gallerypop-overlay .gallerypop-close:hover::after {
+  opacity: 1;
+}
+.gallerypop-overlay .gallerypop-close:active::before, .gallerypop-overlay .gallerypop-close:active::after {
+  opacity: 1;
+  top: calc(50% + 1px);
+}
+.gallerypop-overlay .gallerypop-close::before, .gallerypop-overlay .gallerypop-close::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 70%;
+  top: 50%;
+  left: 50%;
+  background-color: #fff;
+  opacity: 0.6;
+}
+.gallerypop-overlay .gallerypop-close:before {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.gallerypop-overlay .gallerypop-close:after {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.gallerypop-overlay .gallerypop-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+.gallerypop-overlay .gallerypop-nav:active.prev::before, .gallerypop-overlay .gallerypop-nav:active.prev::after, .gallerypop-overlay .gallerypop-nav:active.next::before, .gallerypop-overlay .gallerypop-nav:active.next::after {
+  opacity: 1;
+  top: calc(50% + 1px);
+}
+.gallerypop-overlay .gallerypop-nav:before, .gallerypop-overlay .gallerypop-nav:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+}
+.gallerypop-overlay .gallerypop-nav.prev {
+  left: 20px;
+}
+.gallerypop-overlay .gallerypop-nav.prev:before {
+  border-top: 21px solid transparent;
+  border-bottom: 21px solid transparent;
+  border-right: 22px solid #3f3f3f;
+  opacity: 0.6;
+}
+.gallerypop-overlay .gallerypop-nav.prev:after {
+  left: 7px;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-right: 11px solid #fff;
+  opacity: 0.6;
+}
+.gallerypop-overlay .gallerypop-nav.next {
+  right: 20px;
+}
+.gallerypop-overlay .gallerypop-nav.next:before {
+  right: 0;
+  border-top: 21px solid transparent;
+  border-bottom: 21px solid transparent;
+  border-left: 22px solid #3f3f3f;
+  opacity: 0.6;
+}
+.gallerypop-overlay .gallerypop-nav.next:after {
+  right: 7px;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-left: 11px solid #fff;
+  opacity: 0.6;
+}
+.gallerypop-overlay .gallerypop-nav:hover:before, .gallerypop-overlay .gallerypop-nav:hover:after {
+  opacity: 1;
+}
+.gallerypop-overlay .gallerypop-thumbs {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+.gallerypop-overlay .gallerypop-thumbs .gallerypop-thumb {
+  width: 45px;
+  height: 60px;
+  margin: 0 5px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.35s linear, opacity 0.3s linear, width 0.35s linear;
+  opacity: 0.7;
+}
+.gallerypop-overlay .gallerypop-thumbs .gallerypop-thumb.active {
+  width: 60px;
+  opacity: 1;
+  transform: scale(1.1);
+}
+.gallerypop-overlay .gallerypop-thumbs .gallerypop-thumb:hover {
+  border: 2px solid #3f3f3f;
+  transform: scale(1.1);
+}
+.gallerypop-overlay .gallerypop-counter {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 14px;
+  color: white;
+  border-radius: 5px;
+  z-index: 1000;
+  opacity: 0.7;
+}
+
+.gallery-pop {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.gallery-pop .gallery-image {
+  width: 100%;
+  padding: 10px;
+}
+@media only screen and (min-width: 768px) {
+  .gallery-pop .gallery-image {
+    width: 25%;
+  }
+}
+.gallery-pop .gallery-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}/*# sourceMappingURL=main.css.map */
