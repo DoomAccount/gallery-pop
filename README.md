@@ -114,4 +114,5 @@ This project is licensed under the MIT License. You can freely use and modify it
 
 #### Author : DoomAccount (Mostafa Sabry)
 #### License: MIT License
+#### Email: mr.mostafa.vb@gmail.com
 #### Repository: [GitHub - Gallery Pop](https://github.com/DoomAccount/gallery-pop)
