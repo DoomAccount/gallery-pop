@@ -12,7 +12,8 @@ Gallery Pop is a lightweight, easy-to-implement JavaScript library that allows y
 4. [HTML Structure](#4-html-structure)
 5. [Customization](#5-customization)
 6. [Preview](#Preview)
-7. [License](#7-license)
+7. [License](#license)
+8. [Credits](#credits)
 
 ---
 
@@ -99,15 +100,17 @@ You can customize the Gallery Pop library to suit your design needs.
 
 ## 6. Preview
 
-
 [Gallery Pop](https://gallery-pop.netlify.app/)
+
 ---
 
 ## 7. License
 
 This project is licensed under the MIT License. You can freely use and modify it for personal or commercial purposes, as long as you provide credit to the original author.
 
-## 7. Credits
+---
+
+## 8. Credits
 
 #### Author : DoomAccount (Mostafa Sabry)
 #### License: MIT License
